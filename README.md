@@ -21,6 +21,36 @@ This is a sample implementation of frontend and backend where the Corbado web co
         │   │   └── corbadoWebhookRoutes.js          # Manages endpoints for Corbado webhook
         │   └── views
         │       └── pages
-        │           ├── index.ejs                   # Home page view contains Corbado web component
+        │           ├── login.ejs                   # Login page view contains Corbado web component
         │           └── profile.ejs                 # Profile page view
         └── ...
+
+## 2. Setup
+
+### 2.1. Configure environment variables
+Please follow steps 1-3 on our [Getting started](https://docs.corbado.com/overview/getting-started) page to create and configure a project in the [developer panel](https://app.corbado.com).
+
+Use the values you obtained above to configure the following variables inside `.env`:
+1. **PROJECT_ID**: The project ID.
+2. **API_SECRET**: The API secret.
+3. **CLI_SECRET** The CLI secret.
+
+### 2.2. Start Docker containers
+
+**Note:** Before continuing, please ensure you have [Docker](https://www.docker.com/products/docker-desktop/) installed and accessible from your shell.
+
+Use the following command to start the system:
+```
+docker compose up
+```
+**Note:** Please wait until all containers are ready. This can take some time. 
+
+## 3. Usage
+
+After step 2.3. your local server should be fully working.
+
+### 3.1. Test authentication
+
+If you now visit `http://localhost:3000`, you should be forwarded to the `/login` page:
+
+When authenticated you will be forwarded to the `/profile` page.

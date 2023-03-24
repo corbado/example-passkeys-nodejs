@@ -3,8 +3,12 @@ const jwt = require("jsonwebtoken");
 const Corbado = require('corbado');
 const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET);
 
+exports.home = function(req, res) {
+    res.redirect('/login');
+}
+
 exports.login = function(req, res) {
-    res.render('pages/index');
+    res.render('pages/login');
 }
 
 exports.profile = async function(req, res) {
