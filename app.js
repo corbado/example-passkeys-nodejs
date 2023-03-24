@@ -5,7 +5,6 @@ const webhookRoutes = require('./src/routes/corbadoWebhookRoutes');
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
-
 require('dotenv').config();
 
 const app = express();

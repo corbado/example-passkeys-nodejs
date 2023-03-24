@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const Corbado = require('corbado');
 const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET)
 
-
 exports.login = function(req, res) {
     res.render('pages/index');
 }
@@ -18,7 +17,7 @@ exports.profile = async function(req, res) {
             console.error(err);
             return res.redirect('/logout');
         } else {
-            userId = decoded.userId; // Decoded user object from JWT
+            userId = decoded.userId;
         }
     });
 

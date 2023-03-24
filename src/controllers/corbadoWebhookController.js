@@ -1,5 +1,5 @@
 const UserController = require("./userController");
-const { Webhook, webhookMiddleware } = require('corbado-webhook');
+const { Webhook } = require('corbado-webhook');
 const webhook = new Webhook();
 
 async function getUserStatus(username) {

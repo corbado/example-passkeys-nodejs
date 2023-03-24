@@ -4,11 +4,11 @@ const authController = require("../controllers/authController");
 
 // login page
 router.get('/', authController.login);
-// profile page
+// user profile page
 router.get('/profile', authController.profile);
-// index page
+// logout page
 router.get('/logout', authController.logout);
-// redirect URL for auth
+// redirect URL for corbado auth
 router.get('/auth/redirect', authController.authRedirect);
 
 module.exports = router;
