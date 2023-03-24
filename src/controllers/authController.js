@@ -1,7 +1,7 @@
 const UserController = require("./userController");
 const jwt = require("jsonwebtoken");
 const Corbado = require('corbado');
-const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET)
+const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET);
 
 exports.login = function(req, res) {
     res.render('pages/index');
@@ -32,17 +32,17 @@ exports.profile = async function(req, res) {
 }
 
 exports.logout = function(req, res) {
-    res.clearCookie('jwt', { path: '/' })
-    res.redirect('/')
+    res.clearCookie('jwt', { path: '/' });
+    res.redirect('/');
 }
 
 exports.authRedirect = async function(req, res) {
     let sessionToken = req.query.corbadoSessionToken;
-    let clientInfo = corbado.utils.getClientInfo(req)
+    let clientInfo = corbado.utils.getClientInfo(req);
 
     corbado.sessionService.verify(sessionToken, clientInfo)
         .then(response => {
-            let userData = JSON.parse(response.data.userData)
+            let userData = JSON.parse(response.data.userData);
 
             let name = userData.userFullName;
             let email = userData.username;
@@ -56,7 +56,7 @@ exports.authRedirect = async function(req, res) {
 
                                 res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
 
-                                res.redirect('/profile')
+                                res.redirect('/profile');
                             })
                             .catch(err => {
                                 console.error(err)
@@ -67,7 +67,7 @@ exports.authRedirect = async function(req, res) {
 
                         res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
 
-                        res.redirect('/profile')
+                        res.redirect('/profile');
                     }
                 })
                 .catch(err => {

@@ -21,11 +21,11 @@ db.sequelize.sync()
         console.log("Failed to sync db: " + err.message);
     });
 
-app.set('views', './src/views')
+app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-app.use('/', authRoutes)
-app.use('/', webhookRoutes)
+app.use('/', authRoutes);
+app.use('/', webhookRoutes);
 
 const PORT = process.env.PORT || 5000;
 
