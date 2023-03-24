@@ -14,7 +14,7 @@ services:
     build: .
     command: npm run dev
     ports:
-      - "3000:3000"
+      - "19915:3000"
     depends_on:
       - db
     links:

@@ -11,6 +11,6 @@ router.get('/profile', authController.profile);
 // logout page
 router.get('/logout', authController.logout);
 // redirect URL for corbado auth
-router.get('/auth/redirect', authController.authRedirect);
+router.get('/api/sessionToken', authController.authRedirect);
 
 module.exports = router;
