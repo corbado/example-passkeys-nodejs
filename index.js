@@ -6,10 +6,12 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const { Webhook, webhookMiddleware } = require('corbado-webhook');
 const webhook = new Webhook();
+const Corbado = require('corbado');
 var bodyParser = require('body-parser')
 
 require('dotenv').config();
 
+const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET)
 const app = express();
 
 app.use(cookieParser());
@@ -65,56 +67,43 @@ app.get('/logout', function(req, res) {
 
 // redirect URL for auth
 app.get('/auth/redirect', async function(req, res) {
-    const sessionToken = req.query.corbadoSessionToken;
-    const userAgent = req.get('user-agent');
-    const remoteAddress = req.socket.remoteAddress
+    let sessionToken = req.query.corbadoSessionToken;
+    let clientInfo = corbado.utils.getClientInfo(req)
 
-    axios.post('https://api.corbado.com/v1/sessions/verify',
-        {
-            "token": sessionToken,
-            "clientInfo": {
-                "remoteAddress": remoteAddress,
-                "userAgent": userAgent
-                },
-        },
-        {
-            auth: {
-                username: process.env.PROJECT_ID,
-                password: process.env.API_SECRET,
-            },
-        })
+    corbado.sessionService.verify(sessionToken, clientInfo)
         .then(response => {
-        const data = JSON.parse(response.data.data.userData);
-        const name = data.userFullName;
-        const email = data.username;
+            let userData = JSON.parse(response.data.userData)
 
-        UserController.findByEmail(email)
-            .then(user => {
-                if (!user) {
-                    UserController.create(name, email)
-                        .then(user => {
-                            const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+            let name = userData.userFullName;
+            let email = userData.username;
 
-                            res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
+            UserController.findByEmail(email)
+                .then(user => {
+                    if (!user) {
+                        UserController.create(name, email)
+                            .then(user => {
+                                let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
-                            res.redirect('/profile')
-                        })
-                        .catch(err => {
-                            console.error(err)
-                            res.status(500).send('Server Error');
-                        })
-                } else {
-                    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+                                res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
 
-                    res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
+                                res.redirect('/profile')
+                            })
+                            .catch(err => {
+                                console.error(err)
+                                res.status(500).send('Server Error');
+                            })
+                    } else {
+                        let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
-                    res.redirect('/profile')
-                }
-            })
-            .catch(err => {
-                console.error(err)
-                res.status(500).send('Server Error');
-            })
+                        res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
+
+                        res.redirect('/profile')
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                    res.status(500).send('Server Error');
+                })
         })
         .catch(err => {
             console.error(err)
@@ -141,7 +130,6 @@ app.post('/corbado-webhook', webhookMiddleware("webhookUsername", "webhookPasswo
                 // database and send status. Implement getUserStatus()
                 // function below.
                 const status = await getUserStatus(request.data.username);
-                console.log("STATUS  ", status)
                 response = webhook.getAuthMethodsResponse(status);
                 res.json(response);
                 break;
@@ -192,7 +180,7 @@ async function getUserStatus(username) {
 
 async function verifyPassword(username, password) {
     try {
-        const user = await UserController.findByEmail(username);
+        let user = await UserController.findByEmail(username);
         if (!user) {
             return false;
         }
