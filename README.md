@@ -15,7 +15,7 @@ This is a sample implementation of frontend and backend where the Corbado web co
         │   ├── controllers                  
         │   │   ├── authController.js                # Manages logic for authentication
         │   │   ├── corbadoWebhookConroller.js       # Manages logic for Corbado webhook
-        │   │   └── userController.js                # Manages logic for user
+        │   │   └── userService.js                # Manages logic for user
         │   ├── routes                  
         │   │   ├── authRoutes.js                    # Manages endpoints for authentication
         │   │   └── corbadoWebhookRoutes.js          # Manages endpoints for Corbado webhook

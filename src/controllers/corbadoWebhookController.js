@@ -1,10 +1,10 @@
-const UserController = require("./userController");
+const UserService = require("../services/userService");
 const { Webhook } = require('corbado-webhook');
 const bcrypt = require('bcrypt');
 const webhook = new Webhook();
 
 async function getUserStatus(username) {
-    const user = await UserController.findByEmail(username);
+    const user = await UserService.findByEmail(username);
     if (!user) {
         return "not_exists";
     } else {
@@ -14,7 +14,7 @@ async function getUserStatus(username) {
 
 async function verifyPassword(username, password) {
     try {
-        const user = await UserController.findByEmail(username);
+        const user = await UserService.findByEmail(username);
         if (!user) {
             return false;
         }

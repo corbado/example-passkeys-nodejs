@@ -1,4 +1,4 @@
-const UserController = require("./userController");
+const UserService = require("../services/userService");
 const jwt = require("jsonwebtoken");
 const Corbado = require('corbado');
 const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET);
@@ -25,7 +25,7 @@ exports.profile = async function(req, res) {
         }
     });
 
-    UserController.findById(userId)
+    UserService.findById(userId)
         .then(user => {
             if (!user) {
                 res.redirect('/logout');
@@ -52,10 +52,10 @@ exports.authRedirect = async function(req, res) {
 
             console.log(userData)
 
-            UserController.findByEmail(username)
+            UserService.findByEmail(username)
                 .then(user => {
                     if (!user) {
-                        UserController.create(userFullName, username)
+                        UserService.create(userFullName, username)
                             .then(user => {
                                 const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn:  process.env.JWT_EXPIRATION_TIME });
 

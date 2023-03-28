@@ -2,7 +2,7 @@ const express = require('express');
 const ejs = require('ejs');
 const authRoutes = require('./src/routes/authRoutes');
 const webhookRoutes = require('./src/routes/corbadoWebhookRoutes');
-const UserController = require('./src/controllers/userController');
+const UserService = require('./src/services/userService');
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
@@ -21,13 +21,13 @@ async function addTestUsers() {
 
         // Iterate through the test users and add them to the database
         for (const testUser of testUsers) {
-            const user = await UserController.findByEmail(testUser.email);
+            const user = await UserService.findByEmail(testUser.email);
             if (user) {
                 console.log(`Test user ${testUser.email} already exists, skipping.`);
                 continue;
             }
 
-            await UserController.create(testUser.name, testUser.email, testUser.password);
+            await UserService.create(testUser.name, testUser.email, testUser.password);
             console.log(`Added test user: ${testUser.email}`);
         }
     } catch (error) {
