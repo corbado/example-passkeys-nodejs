@@ -1,4 +1,4 @@
-const UserController = require("./userController");
+const UserService = require("../services/userService");
 const jwt = require("jsonwebtoken");
 const Corbado = require('corbado');
 const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET);
@@ -25,7 +25,7 @@ exports.profile = async function(req, res) {
         }
     });
 
-    UserController.findById(userId)
+    UserService.findById(userId)
         .then(user => {
             if (!user) {
                 res.redirect('/logout');
@@ -41,22 +41,23 @@ exports.logout = function(req, res) {
 }
 
 exports.authRedirect = async function(req, res) {
-    let sessionToken = req.query.corbadoSessionToken;
-    let clientInfo = corbado.utils.getClientInfo(req);
+    const sessionToken = req.query.corbadoSessionToken;
+    const clientInfo = corbado.utils.getClientInfo(req);
 
     corbado.sessionService.verify(sessionToken, clientInfo)
         .then(response => {
-            let userData = JSON.parse(response.data.userData);
+            const userData = JSON.parse(response.data.userData);
 
-            let name = userData.userFullName;
-            let email = userData.username;
+            const { username, userFullName }= userData;
 
-            UserController.findByEmail(email)
+            console.log(userData)
+
+            UserService.findByEmail(username)
                 .then(user => {
                     if (!user) {
-                        UserController.create(name, email)
+                        UserService.create(userFullName, username)
                             .then(user => {
-                                let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+                                const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn:  process.env.JWT_EXPIRATION_TIME });
 
                                 res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
 
@@ -67,7 +68,7 @@ exports.authRedirect = async function(req, res) {
                                 res.status(500).send('Server Error');
                             })
                     } else {
-                        let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+                        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRATION_TIME });
 
                         res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
 

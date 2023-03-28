@@ -1,10 +1,18 @@
 const db = require("../../models");
 const User = db.user;
+const bcrypt = require("bcrypt");
 
-exports.create = (name, email) => {
+exports.create = async (name, email, password = null) => {
+    let hashedPassword = null;
+    if (password) {
+        const saltRounds = 10;
+        hashedPassword = await bcrypt.hash(password, saltRounds);
+    }
+
     const user = {
         name: name,
         email: email,
+        password: hashedPassword,
     }
 
     return User.create(user)

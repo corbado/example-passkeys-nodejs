@@ -8,21 +8,22 @@ This is a sample implementation of frontend and backend where the Corbado web co
         ├── .env                                     # Environment variables for the application
         ├── app.js                                   # Starting point for the application
         ├── config      
-        │   └── routes.yaml                          # Configuration file for the MySQL database
+        │   └── config.js                            # Configuration file for the MySQL database
         ├── models      
         │   └── user.model.js                        # Defines user model
         ├── src                             
         │   ├── controllers                  
-        │   │   ├── authController.js                # Manages logic for authentication
-        │   │   ├── corbadoWebhookConroller.js       # Manages logic for Corbado webhook
-        │   │   └── userController.js                # Manages logic for user
+        │   │   ├── authController.js                # Manages requests for authentication
+        │   │   └── corbadoWebhookConroller.js       # Manages requests for Corbado webhook
         │   ├── routes                  
         │   │   ├── authRoutes.js                    # Manages endpoints for authentication
         │   │   └── corbadoWebhookRoutes.js          # Manages endpoints for Corbado webhook
+        │   ├── services                  
+        │   │   └── userService.js                   # Manages logic for user
         │   └── views
         │       └── pages
-        │           ├── login.ejs                   # Login page view contains Corbado web component
-        │           └── profile.ejs                 # Profile page view
+        │           ├── login.ejs                    # Login page view contains Corbado web component
+        │           └── profile.ejs                  # Profile page view
         └── ...
 
 ## 2. Setup
@@ -51,6 +52,14 @@ After step 2.3. your local server should be fully working.
 
 ### 3.1. Test authentication
 
-If you now visit `http://localhost:19915`, you should be forwarded to the `/login` page:
+If you now visit `http://localhost:19915`, you should be forwarded to the `/login` page.
+
+You can login with one of the existing accounts or sign-up yourself.
+
+| Name | Email | Password |
+| --- | --- | --- |
+| demo_user | demo_user@company.com | demo12 |
+| max | max@company.com | maxPW |
+| john | john@company.com | 123456 |
 
 When authenticated you will be forwarded to the `/profile` page.
