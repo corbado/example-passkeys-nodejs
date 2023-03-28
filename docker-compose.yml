@@ -11,8 +11,11 @@ services:
       - db_data:/var/lib/mysql
   app:
     container_name: node-app
-    build: .
-    command: npm run dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
     ports:
       - "19915:3000"
     depends_on:
