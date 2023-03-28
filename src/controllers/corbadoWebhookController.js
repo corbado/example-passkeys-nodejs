@@ -1,6 +1,6 @@
 const UserService = require("../services/userService");
 const { Webhook } = require('corbado-webhook');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const webhook = new Webhook();
 
 async function getUserStatus(username) {

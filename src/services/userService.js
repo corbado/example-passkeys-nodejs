@@ -1,6 +1,6 @@
 const db = require("../../models");
 const User = db.user;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 exports.create = async (name, email, password = null) => {
     let hashedPassword = null;
