@@ -16,6 +16,7 @@ RUN curl -o /tmp/corbado_cli.tar.gz -sSL https://github.com/corbado/cli/releases
 
 WORKDIR /app
 
+COPY ./corbado-nodejs /app/corbado-nodejs
 COPY package*.json ./
 RUN npm install
 

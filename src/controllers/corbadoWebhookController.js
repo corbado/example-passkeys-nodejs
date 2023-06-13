@@ -1,16 +1,17 @@
-const UserService = require("../services/userService");
-const { Webhook } = require("corbado-webhook");
-const bcrypt = require("bcryptjs");
-const webhook = new Webhook();
+import * as UserService from "../services/userService.js";
+import Corbado, {Configuration} from '../../corbado-nodejs/src/index.js';
+import bcrypt from "bcryptjs";
+
+const { AUTHENTICATION_URL: authenticationURL, PROJECT_ID: projectID, API_SECRET: apiSecret } = process.env;
+const config = new Configuration(projectID, apiSecret);
+config.authenticationURL = authenticationURL;
+const corbado = new Corbado(config);
 
 async function getUserStatus(username) {
   const user = await UserService.findByEmail(username);
-  if (!user) {
+  if (!user || user.password === null) {
     return "not_exists";
   } else {
-    if (user.password === null) {
-      return "not_exists";
-    }
     return "exists";
   }
 }
@@ -29,31 +30,31 @@ async function verifyPassword(username, password) {
   }
 }
 
-exports.webhook = async (req, res) => {
+export const webhook = async (req, res) => {
   try {
     // Get the webhook action and act accordingly. Every Corbado
     // webhook has an action.
     let request;
     let response;
 
-    switch (webhook.getAction(req)) {
+    switch (corbado.webhook.getAction(req)) {
       // Handle the "authMethods" action which basically checks
       // if a user exists on your side/in your database.
-      case webhook.WEBHOOK_ACTION.AUTH_METHODS: {
-        request = webhook.getAuthMethodsRequest(req);
+      case corbado.webhook.WEBHOOK_ACTION.AUTH_METHODS: {
+        request = corbado.webhook.getAuthMethodsRequest(req);
         // Now check if the given user/username exists in your
         // database and send status. Implement getUserStatus()
         // function below.
         const status = await getUserStatus(request.data.username);
-        response = webhook.getAuthMethodsResponse(status);
+        response = corbado.webhook.getAuthMethodsResponse(status);
         res.json(response);
         break;
       }
 
       // Handle the "passwordVerify" action which basically checks
       // if the given username and password are valid.
-      case webhook.WEBHOOK_ACTION.PASSWORD_VERIFY: {
-        request = webhook.getPasswordVerifyRequest(req);
+      case corbado.webhook.WEBHOOK_ACTION.PASSWORD_VERIFY: {
+        request = corbado.webhook.getPasswordVerifyRequest(req);
 
         // Now check if the given username and password is
         // valid. Implement verifyPassword() function below.
@@ -61,7 +62,7 @@ exports.webhook = async (req, res) => {
           request.data.username,
           request.data.password
         );
-        response = webhook.getPasswordVerifyResponse(isValid);
+        response = corbado.webhook.getPasswordVerifyResponse(isValid);
         res.json(response);
         break;
       }
