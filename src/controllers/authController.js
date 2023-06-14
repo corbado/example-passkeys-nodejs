@@ -1,10 +1,10 @@
 import * as UserService from "../services/userService.js";
-import Corbado, {Configuration} from '../../corbado-nodejs/src/index.js';
+import {CorbadoSDK, Configuration} from '@corbado/nodejs';
 
 const { AUTHENTICATION_URL: authenticationURL, PROJECT_ID: projectID, API_SECRET: apiSecret } = process.env;
 const config = new Configuration(projectID, apiSecret);
 config.authenticationURL = authenticationURL;
-const corbado = new Corbado(config);
+const corbado = new CorbadoSDK(config);
 
 export const home = (req, res) => {
     res.redirect('/login');

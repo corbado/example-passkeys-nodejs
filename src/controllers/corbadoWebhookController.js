@@ -1,11 +1,11 @@
 import * as UserService from "../services/userService.js";
-import Corbado, {Configuration} from '../../corbado-nodejs/src/index.js';
+import {CorbadoSDK, Configuration} from '@corbado/nodejs';
 import bcrypt from "bcryptjs";
 
 const { AUTHENTICATION_URL: authenticationURL, PROJECT_ID: projectID, API_SECRET: apiSecret } = process.env;
 const config = new Configuration(projectID, apiSecret);
 config.authenticationURL = authenticationURL;
-const corbado = new Corbado(config);
+const corbado = new CorbadoSDK(config);
 
 async function getUserStatus(username) {
   const user = await UserService.findByEmail(username);
@@ -32,7 +32,7 @@ async function verifyPassword(username, password) {
 
 export const webhook = async (req, res) => {
   try {
-    // Get the webhook action and act accordingly. Every Corbado
+    // Get the webhook action and act accordingly. Every CorbadoSDK
     // webhook has an action.
     let request;
     let response;
@@ -72,14 +72,14 @@ export const webhook = async (req, res) => {
     }
   } catch (error) {
     // We expose the full error message here. Usually you would
-    // not do this (security!) but in this case Corbado is the
+    // not do this (security!) but in this case CorbadoSDK is the
     // only consumer of your webhook. The error message gets
-    // logged at Corbado and helps you and us debugging your
+    // logged at CorbadoSDK and helps you and us debugging your
     // webhook.
     console.log(error);
 
     // If something went wrong just return HTTP status
-    // code 500. For successful requests Corbado always
+    // code 500. For successful requests CorbadoSDK always
     // expects HTTP status code 200. Everything else
     // will be treated as error.
     return res.status(500).send(error.message);

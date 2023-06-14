@@ -1,6 +1,6 @@
 import express from 'express';
 import { webhook as webhookController } from '../controllers/corbadoWebhookController.js';
-import Corbado, {Configuration} from '../../corbado-nodejs/src/index.js';
+import {CorbadoSDK, Configuration} from '@corbado/nodejs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -11,7 +11,7 @@ config.authenticationURL = authenticationURL;
 
 config.webhookUsername = webhookUsername;
 config.webhookPassword = webhookPassword;
-const corbado = new Corbado(config);
+const corbado = new CorbadoSDK(config);
 
 const router = express.Router();
 
