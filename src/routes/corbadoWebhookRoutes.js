@@ -1,18 +1,19 @@
 import express from 'express';
 import { webhook as webhookController } from '../controllers/corbadoWebhookController.js';
-import {CorbadoSDK, Configuration} from '@corbado/nodejs';
+import {SDK, Configuration} from '@corbado/node-sdk';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { PROJECT_ID: projectID, API_SECRET: apiSecret, WEBHOOK_USERNAME: webhookUsername, WEBHOOK_PASSWORD: webhookPassword } = process.env;
+const projectID = process.env.PROJECT_ID;
+const apiSecret = process.env.API_SECRET;
 const config = new Configuration(projectID, apiSecret);
-config.webhookUsername = webhookUsername;
-config.webhookPassword = webhookPassword;
-const corbado = new CorbadoSDK(config);
+config.webhookUsername = process.env.WEBHOOK_USERNAME;
+config.webhookPassword = process.env.WEBHOOK_PASSWORD;
+const corbado = new SDK(config);
 
 const router = express.Router();
 
-router.post('/corbado-webhook', corbado.webhook.middleware, webhookController);
+router.post('/corbado-webhook', corbado.webhooks.middleware, webhookController);
 
 export default router;
