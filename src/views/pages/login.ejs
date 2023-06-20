@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <script defer src="https://auth.corbado.com/auth.js"></script>
+    <script defer src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
 </head>
 
 <body>
@@ -23,7 +23,18 @@
     }
 </style>
 
-<corbado-auth project_id="<%= process.env.PROJECT_ID %>"></corbado-auth>
+<corbado-auth-provider project-id="<%= process.env.PROJECT_ID %>">
+    <div slot="unauthed">
+        <corbado-auth
+                project-id="<%= process.env.PROJECT_ID %>"
+                conditional="yes">
+            <input name="username" id="corbado-username"
+                   value="" data-input="username" required
+                   autocomplete="webauthn"/>
+        </corbado-auth>
+    </div>
+</corbado-auth-provider>
+
 
 </body>
 </html>

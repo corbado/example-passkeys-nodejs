@@ -1,8 +1,9 @@
-const db = require("../../models");
-const User = db.user;
-const bcrypt = require("bcryptjs");
+import db from "../../models/index.js";
+import bcrypt from "bcryptjs";
 
-exports.create = async (name, email, password = null) => {
+const User = db.user;
+
+export const create = async (name, email, password = null) => {
     let hashedPassword = null;
     if (password) {
         const saltRounds = 10;
@@ -10,30 +11,28 @@ exports.create = async (name, email, password = null) => {
     }
 
     const user = {
-        name: name,
-        email: email,
+        name,
+        email,
         password: hashedPassword,
     }
 
-    return User.create(user)
+    return User.create(user);
 }
 
-exports.findByEmail = (email) => {
-    return User.findOne({where: {email: email}})
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+export const findByEmail = async (email) => {
+    try {
+        const response = await User.findOne({ where: { email }});
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
-exports.findById = (id) => {
-    return User.findOne({where: {id: id}})
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
+export const findById = async (id) => {
+    try {
+        const response = await User.findOne({ where: { id }});
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};

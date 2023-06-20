@@ -1,87 +1,67 @@
-const UserService = require("../services/userService");
-const jwt = require("jsonwebtoken");
-const Corbado = require('corbado');
-const corbado = new Corbado(process.env.PROJECT_ID, process.env.API_SECRET);
+import * as UserService from "../services/userService.js";
+import {SDK, Configuration} from '@corbado/node-sdk';
 
-exports.home = function(req, res) {
+const projectID = process.env.PROJECT_ID;
+const apiSecret = process.env.API_SECRET;
+const config = new Configuration(projectID, apiSecret);
+const corbado = new SDK(config);
+
+export const home = (req, res) => {
     res.redirect('/login');
 }
 
-exports.login = function(req, res) {
+export const login = (req, res) => {
     res.render('pages/login');
 }
 
-exports.profile = async function(req, res) {
-    const token = req.cookies.jwt
+export const profile = async (req, res) => {
+    const { authenticated, email } = await corbado.session.getCurrentUser(req);
 
-    let userId
-    await jwt.verify(token, process.env.JWT_SECRET_KEY, function(err, decoded) {
-        if (err) {
-            // Handle invalid token error
-            console.error(err);
-            return res.redirect('/logout');
+    if (!authenticated) {
+        return res.redirect('/logout');
+    }
+
+    try {
+        const user = await UserService.findByEmail(email);
+        if (!user) {
+            res.redirect('/logout');
         } else {
-            userId = decoded.userId;
+            res.render('pages/profile', { username: user.email, userFullName: user.name });
         }
-    });
-
-    UserService.findById(userId)
-        .then(user => {
-            if (!user) {
-                res.redirect('/logout');
-            } else {
-                res.render('pages/profile', { username: user.email, userFullName: user.name });
-            }
-        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
 }
 
-exports.logout = function(req, res) {
-    res.clearCookie('jwt', { path: '/' });
+export const logout = (req, res) => {
     res.redirect('/');
 }
 
-exports.authRedirect = async function(req, res) {
-    const sessionToken = req.query.corbadoSessionToken;
-    const clientInfo = corbado.utils.getClientInfo(req);
+export const authRedirect = async (req, res) => {
+    try {
+        const { email, name } = await corbado.session.getCurrentUser(req);
 
-    corbado.sessionService.verify(sessionToken, clientInfo)
-        .then(response => {
-            const userData = JSON.parse(response.data.userData);
-
-            const { username, userFullName }= userData;
-
-            console.log(userData)
-
-            UserService.findByEmail(username)
-                .then(user => {
-                    if (!user) {
-                        UserService.create(userFullName, username)
-                            .then(user => {
-                                const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn:  process.env.JWT_EXPIRATION_TIME });
-
-                                res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
-
-                                res.redirect('/profile');
-                            })
-                            .catch(err => {
-                                console.error(err)
-                                res.status(500).send('Server Error');
-                            })
-                    } else {
-                        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRATION_TIME });
-
-                        res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 });
-
-                        res.redirect('/profile');
-                    }
-                })
-                .catch(err => {
-                    console.error(err)
+        try {
+            const user = await UserService.findByEmail(email);
+            if (!user) {
+                try {
+                    const newUser = await UserService.create(name, email);
+                    console.log("Local user successfully created");
+                    res.redirect('/profile');
+                } catch (err) {
+                    console.error(err);
                     res.status(500).send('Server Error');
-                })
-        })
-        .catch(err => {
-            console.error(err)
+                }
+            } else {
+                console.log("Local user already exists");
+                res.redirect('/profile');
+            }
+        } catch (err) {
+            console.error(err);
             res.status(500).send('Server Error');
-        })
+        }
+    } catch (err) {
+        res.status(401).json({});
+    }
 }

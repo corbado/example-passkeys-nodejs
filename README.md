@@ -1,5 +1,5 @@
-# Complete integration sample for the Corbado web component in Node.js
-This is a sample implementation of frontend and backend where the Corbado web component is integrated.
+# Complete integration sample for the CorbadoSDK web component in Node.js
+This is a sample implementation of frontend and backend where the CorbadoSDK web component is integrated.
 
 **Note:** In this tutorial a customer system is created with some pre-existing password-based users. Have a look at our [docs](https://docs.corbado.com/integrations/web-component/no-existing-user-base) to see the integration if you don't have any users yet.
 
@@ -14,15 +14,15 @@ This is a sample implementation of frontend and backend where the Corbado web co
         ├── src                             
         │   ├── controllers                  
         │   │   ├── authController.js                # Manages requests for authentication
-        │   │   └── corbadoWebhookConroller.js       # Manages requests for Corbado webhook
+        │   │   └── corbadoWebhookConroller.js       # Manages requests for CorbadoSDK webhook
         │   ├── routes                  
         │   │   ├── authRoutes.js                    # Manages endpoints for authentication
-        │   │   └── corbadoWebhookRoutes.js          # Manages endpoints for Corbado webhook
+        │   │   └── corbadoWebhookRoutes.js          # Manages endpoints for CorbadoSDK webhook
         │   ├── services                  
         │   │   └── userService.js                   # Manages logic for user
         │   └── views
         │       └── pages
-        │           ├── login.ejs                    # Login page view contains Corbado web component
+        │           ├── login.ejs                    # Login page view contains CorbadoSDK web component
         │           └── profile.ejs                  # Profile page view
         └── ...
 
