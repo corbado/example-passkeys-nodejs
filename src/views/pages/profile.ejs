@@ -13,9 +13,9 @@
             padding: 3px;
         }
     </style>
-    <script src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
 </head>
 <body>
+<script src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
 <corbado-auth-provider project-id="<%= process.env.PROJECT_ID %>">
 
     <div slot="authed">

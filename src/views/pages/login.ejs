@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <script defer src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
-</head>
-
 <body>
 
 <!-- Your website content -->
@@ -23,6 +18,7 @@
     }
 </style>
 
+<script defer src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
 <corbado-auth-provider project-id="<%= process.env.PROJECT_ID %>">
     <div slot="unauthed">
         <corbado-auth
