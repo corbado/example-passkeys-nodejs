@@ -36,6 +36,8 @@ Use the values you obtained above to configure the following variables inside `.
 2. **API_SECRET**: The API secret.
 3. **CLI_SECRET** The CLI secret.
 
+You can also use our [example downloader](https://app.corbado.com/app/getting-started/examples), that automatically sets all required values for you.
+
 ### 2.2. Start Docker containers
 
 **Note:** Before continuing, please ensure you have [Docker](https://www.docker.com/products/docker-desktop/) installed and accessible from your shell.
