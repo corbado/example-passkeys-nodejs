@@ -30,9 +30,11 @@ This is a sample implementation of frontend and backend where the CorbadoSDK web
 
 ### 2.1. Configure environment variables
 **Automatic Setup**
+
 You can download this repository directly from our [examples](https://app.corbado.com/app/getting-started/examples)) page, where all environment variables and other necessary parameters will be configured automatically. In that case, you can skip the following manual setup step, and proceed to step 2.2.
 
 **Manual Setup**
+
 Please follow steps 1-3 on our [Getting started](https://docs.corbado.com/overview/getting-started) page to create and configure a project in the [developer panel](https://app.corbado.com).
 
 Use the values you obtained above to configure the following variables inside `.env`:
