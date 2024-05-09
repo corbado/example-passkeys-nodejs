@@ -1,34 +1,28 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/@corbado/web-js@2.6.0/dist/bundle/index.css"
+    />
+    <script src="https://unpkg.com/@corbado/web-js@2.6.0/dist/bundle/index.js"></script>
+</head>
 <body>
+<div id="corbado-auth"></div>
+<script type="module">
+    await Corbado.load({
+        projectId: "<%= process.env.PROJECT_ID %>",
+        setShortSessionCookie: true
+    });
 
-<!-- Your website content -->
-
-<style>
-    corbado-auth {
-        --primary-color: #1953ff;
-        --primary-color-rgb: 25, 83, 255;
-        --heading-color: #090f1f;
-        --text-color: #535e80;
-        --light-color: #8f9bbf;
-        --error-color: #FF4C51;
-        --primary-font: 'Space Grotesk', sans-serif;
-        --secondary-font: 'Inter', sans-serif;
-        --border-color: rgba(143, 155, 191, 0.5);
+    async function onLoggedIn() {
+        window.location.href = "/api/saveUser"
     }
-</style>
 
-<script defer src="https://<%= process.env.PROJECT_ID %>.frontendapi.corbado.io/auth.js"></script>
-<corbado-auth-provider project-id="<%= process.env.PROJECT_ID %>">
-    <corbado-auth
-            project-id="<%= process.env.PROJECT_ID %>"
-            conditional="yes">
-        <input name="username" id="corbado-username"
-               value="" data-input="username" required
-               autocomplete="webauthn"/>
-    </corbado-auth>
-</corbado-auth-provider>
-
-
+    const authElement = document.getElementById('corbado-auth'); //Element where you want to render CorbadoAuth UI
+    Corbado.mountAuthUI(authElement, {
+        onLoggedIn: onLoggedIn,
+    });
+</script>
 </body>
 </html>

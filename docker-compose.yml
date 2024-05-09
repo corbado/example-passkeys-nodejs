@@ -17,13 +17,13 @@ services:
     env_file:
       - ./.env
     ports:
-      - "19915:3000"
+      - "3000:3000"
     depends_on:
       - db
     links:
       - db
     volumes:
-      - .:/app
+      - ./src:/app/src
       - /app/node_modules
     environment:
       PORT: 3000
@@ -31,6 +31,7 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: mydb
+
 
 volumes:
   db_data:
