@@ -1,7 +1,7 @@
-# Node.js Passkey Example App
+# Node.js (Express) Passkey Example App
 
-This is a sample implementation of frontend and backend where the CorbadoSDK and Web-js components are integrated.
-We'll use a mysql database to store our own user data and hook it up with Corbado
+This is a sample implementation of frontend and backend where the Corbado Node.js SDK and Web-js components are integrated.
+We'll use a MySQL database to store our own user data and hook it up with Corbado.
 
 ## 1. File structure
 ```
