@@ -1,16 +1,13 @@
 # Node.js (Express) Passkey Example App
 
-This is a sample implementation of frontend and backend where the Corbado Node.js SDK and Web-js components are integrated.
-We'll use a MySQL database to store our own user data and hook it up with Corbado.
+This is a sample implementation of frontend and backend where the Corbado Node.js SDK and Web-js components are
+integrated in an Express application.
 
 ## 1. File structure
+
 ```
 ├── ...
 ├── .env                        # Environment variables for the application
-├── config      
-│   └── config.js               # Configuration file for the MySQL database
-├── models      
-│   └── index.ts                # Defines user model
 ├── src                             
 │   ├── app.ts                  # Application Entrypoint
 │   ├── routes.ts               # Defines our routes 
@@ -23,14 +20,6 @@ We'll use a MySQL database to store our own user data and hook it up with Corbad
 
 ### 2.1. Configure environment variables
 
-**Automatic Setup**
-
-You can download this repository directly from our [examples](https://app.corbado.com/app/getting-started/examples)
-page, where all environment variables and other necessary parameters will be configured automatically. In that case, you
-can skip the following manual setup step, and proceed to step 2.2.
-
-**Manual Setup**
-
 Please follow our [Getting started](https://docs.corbado.com/overview/getting-started) page to create and
 configure a project in the [developer panel](https://app.corbado.com).
 
@@ -39,22 +28,24 @@ Use the values you obtained above to configure the following variables inside `.
 1. **PROJECT_ID**: The project ID.
 2. **API_SECRET**: The API secret.
 
-### 2.2. Start Docker containers
+### 2.2. Run the Express App
 
-**Note:** Before continuing, please ensure you have [Docker](https://www.docker.com/products/docker-desktop/) installed
-and accessible from your shell.
 
-Use the following command to start the system:
+Use the following command to install all dependencies:
 
 ```
-docker compose up
+npm i
 ```
 
-**Note:** Please wait until all containers are ready. This can take some time.
+Now, you're ready to run the app like this:
+
+```
+npm run start
+```
 
 ## 3. Usage
 
-After step 2.3. your local server should be fully working.
+After step 2 your local server should be fully working.
 
 ### 3.1. Test authentication
 
