@@ -4,17 +4,17 @@
     <head>
         <link
                 rel="stylesheet"
-                href="https://unpkg.com/@corbado/web-js@2.6.0/dist/bundle/index.css"
+                href="https://unpkg.com/@corbado/web-js@2/dist/bundle/index.css"
         />
-        <script src="https://unpkg.com/@corbado/web-js@2.6.0/dist/bundle/index.js"></script>
+        <script src="https://unpkg.com/@corbado/web-js@2/dist/bundle/index.js"></script>
     </head>
 </head>
 <body>
 
 <div>
     <h1>User profile:</h1>
-    <p>Email: <%= email %></p>
-    <p>Name: <%= cboId %></p>
+    <p>User-ID: <%= userId %></p>
+    <p>Full name: <%= fullName %></p>
     <button id="logoutButton">
         Logout
     </button>
@@ -22,7 +22,7 @@
 
 <script type="module">
     await Corbado.load({
-        projectId: "<%= process.env.PROJECT_ID %>",
+        projectId: "<%= process.env.CORBADO_PROJECT_ID %>",
         setShortSessionCookie: true
     });
 
