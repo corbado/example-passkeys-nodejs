@@ -6,6 +6,7 @@ const app = express();
 app.use(cookieParser())
 app.set('views', './src/views')
 app.set('view engine', 'ejs');
+
 const port = 3000;
 
 app.use("/", authRoutes)

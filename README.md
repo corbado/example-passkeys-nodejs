@@ -25,11 +25,12 @@ configure a project in the [developer panel](https://app.corbado.com).
 
 Use the values you obtained above to configure the following variables inside `.env`:
 
-1. **PROJECT_ID**: The project ID.
-2. **API_SECRET**: The API secret.
+1. **CORBADO_PROJECT_ID**: The project ID.
+2. **CORBADO_API_SECRET**: The API secret.
+3. **CORBADO_FRONTEND_API**: The frontend API URL.
+4. **CORBADO_BACKEND_API**: The backend API URL.
 
 ### 2.2. Run the Express App
-
 
 Use the following command to install all dependencies:
 
