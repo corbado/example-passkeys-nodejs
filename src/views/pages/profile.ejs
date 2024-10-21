@@ -22,8 +22,7 @@
 
 <script type="module">
     await Corbado.load({
-        projectId: "<%= process.env.CORBADO_PROJECT_ID %>",
-        setShortSessionCookie: true
+        projectId: "<%= process.env.CORBADO_PROJECT_ID %>"
     });
 
     document.getElementById("logoutButton").addEventListener("click", async () => {

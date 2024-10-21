@@ -11,8 +11,7 @@
 <div id="corbado-auth"></div>
 <script type="module">
     await Corbado.load({
-        projectId: "<%= process.env.CORBADO_PROJECT_ID %>",
-        setShortSessionCookie: true
+        projectId: "<%= process.env.CORBADO_PROJECT_ID %>"
     });
 
     async function onLoggedIn() {
